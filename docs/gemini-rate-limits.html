@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Why Atomic Ops Agent Hits Rate Limits</title>
+<style>
+  @page { size: A4 landscape; margin: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+    color: #1A1A1A;
+    background: #FAFAF7;
+  }
+  .slide {
+    width: 297mm;
+    height: 210mm;
+    padding: 18mm 22mm;
+    page-break-after: always;
+    background: #FAFAF7;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    border-bottom: 1px solid #D4D0C7;
+  }
+  .slide:last-child { page-break-after: auto; }
+  .slide-num {
+    position: absolute;
+    top: 10mm;
+    right: 14mm;
+    font-family: "JetBrains Mono", "Courier New", monospace;
+    font-size: 9pt;
+    color: #6B6B6B;
+    letter-spacing: 0.1em;
+  }
+  .brand {
+    position: absolute;
+    bottom: 10mm;
+    left: 22mm;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 8pt;
+    color: #6B6B6B;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+  }
+  .accent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 6mm;
+    height: 100%;
+    background: #C8432C;
+  }
+  h1 {
+    font-size: 38pt;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin-bottom: 8mm;
+  }
+  h2 {
+    font-size: 14pt;
+    font-weight: 500;
+    color: #6B6B6B;
+    margin-bottom: 6mm;
+    letter-spacing: 0.02em;
+  }
+  .lead {
+    font-size: 18pt;
+    line-height: 1.5;
+    color: #3D3D3D;
+    margin-bottom: 6mm;
+  }
+  .big-num {
+    font-size: 96pt;
+    font-weight: 700;
+    color: #C8432C;
+    line-height: 1;
+    letter-spacing: -0.04em;
+    margin-bottom: 6mm;
+  }
+  p {
+    font-size: 13pt;
+    line-height: 1.55;
+    color: #3D3D3D;
+    margin-bottom: 4mm;
+  }
+  strong { color: #1A1A1A; font-weight: 600; }
+  em { color: #C8432C; font-style: normal; font-weight: 500; }
+  ul { margin-left: 6mm; margin-bottom: 4mm; }
+  li {
+    font-size: 13pt;
+    line-height: 1.6;
+    color: #3D3D3D;
+    margin-bottom: 2mm;
+  }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 12pt;
+    margin-top: 4mm;
+  }
+  th, td {
+    text-align: left;
+    padding: 3mm 5mm;
+    border-bottom: 1px solid #D4D0C7;
+  }
+  th {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 10pt;
+    color: #6B6B6B;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+    background: #F0EDE4;
+  }
+  td.num { font-family: "JetBrains Mono", monospace; text-align: right; }
+  pre {
+    background: #1A1A1A;
+    color: #F0EDE4;
+    padding: 5mm 6mm;
+    border-radius: 3mm;
+    font-family: "JetBrains Mono", "Courier New", monospace;
+    font-size: 10pt;
+    line-height: 1.6;
+    margin: 4mm 0;
+    overflow: hidden;
+  }
+  pre .hl { color: #FF8866; }
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8mm;
+    margin-top: 8mm;
+  }
+  .stat {
+    border-left: 2mm solid #C8432C;
+    padding-left: 5mm;
+  }
+  .stat-num {
+    font-size: 36pt;
+    font-weight: 700;
+    color: #1A1A1A;
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+  .stat-label {
+    font-size: 10pt;
+    color: #6B6B6B;
+    margin-top: 2mm;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .verdict {
+    margin-top: auto;
+    padding: 6mm 7mm;
+    background: #1A1A1A;
+    color: white;
+    border-radius: 2mm;
+    font-size: 14pt;
+    line-height: 1.5;
+  }
+  .verdict strong { color: #FF8866; }
+  .title-slide {
+    justify-content: center;
+    align-items: flex-start;
+    background: #1A1A1A;
+    color: white;
+  }
+  .title-slide h1 { font-size: 52pt; color: white; }
+  .title-slide h2 { color: #C8432C; font-size: 18pt; margin-bottom: 12mm; }
+  .title-slide .meta {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 11pt;
+    color: #A8A8A8;
+    margin-top: 14mm;
+    letter-spacing: 0.1em;
+  }
+  .title-slide .accent { background: #C8432C; width: 10mm; }
+  .footer-cta {
+    margin-top: auto;
+    font-size: 14pt;
+    color: #1A1A1A;
+    font-weight: 500;
+    padding-top: 6mm;
+    border-top: 1px solid #D4D0C7;
+  }
+  .footer-cta em { color: #C8432C; font-weight: 600; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 10mm; margin-top: 4mm; }
+  .callout {
+    background: #FFF5F1;
+    border: 1px solid #C8432C;
+    border-radius: 2mm;
+    padding: 4mm 5mm;
+    font-size: 12pt;
+    color: #3D3D3D;
+    margin: 4mm 0;
+  }
+  .check { color: #4A6B3D; font-weight: 600; }
+  .cross { color: #A53025; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<!-- Slide 1: Title -->
+<section class="slide title-slide">
+  <div class="accent"></div>
+  <div class="slide-num" style="color:#A8A8A8;">01 / 10</div>
+  <h2>Gemini 2.5 Flash · Free Tier Analysis</h2>
+  <h1>Why Atomic Ops Agent<br>Hits Rate Limits</h1>
+  <div class="meta">Atomic Group · Supply Chain Dashboard · May 2026</div>
+</section>
+
+<!-- Slide 2: The Number -->
+<section class="slide">
+  <div class="accent"></div>
+  <div class="slide-num">02 / 10</div>
+  <h2>The Problem in One Number</h2>
+  <h1>1 brief = 5 API calls</h1>
+  <p class="lead">Not one. <strong>Five.</strong></p>
+  <p>Gemini Free tier allows <strong>10 requests per minute</strong>.</p>
+  <p>Refresh the brief twice — you've burned <em>all 10</em>.</p>
+  <div class="brand">ATOMIC OPS · RATE LIMIT REPORT</div>
+</section>
+
+<!-- Slide 3: Tool-call loop -->
+<section class="slide">
+  <div class="accent"></div>
+  <div class="slide-num">03 / 10</div>
+  <h2>Why 1 Brief = 5 Calls</h2>
+  <h1>The Tool-Call Loop</h1>
+<pre>Round 1  →  Gemini: "I need <span class="hl">query_pos</span>"
+Round 2  →  Gemini: "Now <span class="hl">query_purchase_decisions</span>"
+Round 3  →  Gemini: "Now <span class="hl">query_batches</span>"
+Round 4  →  Gemini: "Now overdue POs"
+Round 5  →  Gemini: writes the final brief text</pre>
+  <p>Each arrow = <strong>one billable API request</strong>.</p>
+  <p>The model can't see tool results until we send them back in the next round.</p>
+  <div class="brand">ATOMIC OPS · RATE LIMIT REPORT</div>
+</section>
+
+<!-- Slide 4: Token snowball -->
+<section class="slide">
+  <div class="accent"></div>
+  <div class="slide-num">04 / 10</div>
+  <h2>Tokens Snowball Each Round</h2>
+  <h1>Conversation Replays Every Time</h1>
+  <p>LLMs are <strong>stateless</strong>. Every round resends the entire history.</p>
+  <table>
+    <tr><th>Round</th><th>What's sent</th><th class="num">Tokens</th></tr>
+    <tr><td>1</td><td>system + prompt</td><td class="num">2K</td></tr>
+    <tr><td>2</td><td>+ tool_result_1</td><td class="num">6K</td></tr>
+    <tr><td>3</td><td>+ tool_result_2</td><td class="num">12K</td></tr>
+    <tr><td>4</td><td>+ tool_result_3</td><td class="num">20K</td></tr>
+    <tr><td>5</td><td>+ tool_result_4</td><td class="num">28K</td></tr>
+    <tr><td colspan="2"><strong>Total per brief</strong></td><td class="num"><strong>~68K</strong></td></tr>
+  </table>
+  <div class="callout">Free tier TPM = 250K. <strong>3 briefs/min hits the cap.</strong></div>
+  <div class="brand">ATOMIC OPS · RATE LIMIT REPORT</div>
+</section>
+
+<!-- Slide 5: Tool results heavy -->
+<section class="slide">
+  <div class="accent"></div>
+  <div class="slide-num">05 / 10</div>
+  <h2>Tool Results Are Heavy</h2>
+  <h1>Each result ≈ 4–6K tokens</h1>
+  <p><code>query_purchase_decisions</code> returns <strong>30 SKUs × 15 fields each</strong>:</p>
+<pre>sku, brand, product_name, available, l3m_avg,
+stock_months, status, safety, moq, lead_time_days,
+suggest_qty, unit_cost, amount, supplier_name,
+payment_terms, active_po</pre>
+  <p>The agent only needs the <strong>top 5</strong> for the brief.</p>
+  <div class="callout">We're sending <em>6× more data</em> than necessary.</div>
+  <div class="brand">ATOMIC OPS · RATE LIMIT REPORT</div>
+</section>
+
+<!-- Slide 6: System prompt -->
+<section class="slide">
+  <div class="accent"></div>
+  <div class="slide-num">06 / 10</div>
+  <h2>Hidden Overhead</h2>
+  <h1>System Prompt Repeats 5×</h1>
+  <div class="stat-grid">
+    <div class="stat">
+      <div class="stat-num">800</div>
+      <div class="stat-label">buildSystemPrompt tokens</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">600</div>
+      <div class="stat-label">dailyBriefSeed tokens</div>
+    </div>
+    <div class="stat">
+      <div class="stat-num">7,000</div>
+      <div class="stat-label">resent per brief</div>
+    </div>
+  </div>
+  <p style="margin-top:10mm;">Both prompts are resent <strong>every round</strong> — that's <em>7,000 tokens of pure boilerplate</em> per brief, before any actual data.</p>
+  <div class="brand">ATOMIC OPS · RATE LIMIT REPORT</div>
+</section>
+
+<!-- Slide 7: Role switching -->
+<section class="slide">
+  <div class="accent"></div>
+  <div class="slide-num">07 / 10</div>
+  <h2>The Testing Trap</h2>
+  <h1>Role Switching Multiplies Everything</h1>
+<pre>useEffect(() => {
+  if (briefedFor === current.name) return
+  runChat(seedPrompt, { isBrief: true })  <span class="hl">// auto-fires</span>
+}, [current.name])</pre>
+  <p>Viewing as <strong>Syuen → Jun Ye → Grace</strong> in quick succession:</p>
+  <div class="callout"><strong>3 briefs × 5 calls = 15 requests in seconds → instant 429.</strong></div>
+  <div class="brand">ATOMIC OPS · RATE LIMIT REPORT</div>
+</section>
+
+<!-- Slide 8: The Math -->
+<section class="slide">
+  <div class="accent"></div>
+  <div class="slide-num">08 / 10</div>
+  <h2>The Math</h2>
+  <h1>Free Tier vs. Our Usage</h1>
+  <table>
+    <tr><th>Action</th><th class="num">Requests</th><th class="num">Tokens</th></tr>
+    <tr><td>1 brief</td><td class="num">5</td><td class="num">~68K</td></tr>
+    <tr><td>Switch 3 roles</td><td class="num">15</td><td class="num">~200K</td></tr>
+    <tr><td><strong>Free tier limit</strong></td><td class="num"><strong>10/min · 250/day</strong></td><td class="num"><strong>250K/min</strong></td></tr>
+  </table>
+  <div class="verdict">
+    Verdict: <strong>Architecture is too heavy for Free tier</strong>
+    at current testing/usage patterns.
+  </div>
+  <div class="brand" style="color:#A8A8A8;">ATOMIC OPS · RATE LIMIT REPORT</div>
+</section>
+
+<!-- Slide 9: Optimizations -->
+<section class="slide">
+  <div class="accent"></div>
+  <div class="slide-num">09 / 10</div>
+  <h2>Recommended Optimizations</h2>
+  <h1>4 Fixes (No Paid Plan Needed)</h1>
+  <ul>
+    <li><strong>1. Slim tool results</strong> — <code>slice(0, 5)</code> instead of <code>(0, 30)</code> → save ~30K tokens/brief</li>
+    <li><strong>2. Parallel tool calls</strong> — collapse 5 rounds into 2</li>
+    <li><strong>3. Cache briefs</strong> — reuse within a 10-minute window</li>
+    <li><strong>4. Manual role-switch brief</strong> — no auto-fire on viewer change</li>
+  </ul>
+  <div class="callout">
+    Combined effect: <em>~80% reduction</em> in daily requests.<br>
+    Free tier becomes comfortable for normal use.
+  </div>
+  <div class="brand">ATOMIC OPS · RATE LIMIT REPORT</div>
+</section>
+
+<!-- Slide 10: Decision -->
+<section class="slide">
+  <div class="accent"></div>
+  <div class="slide-num">10 / 10</div>
+  <h2>Decision</h2>
+  <h1>Choose Your Path</h1>
+  <table>
+    <tr><th>Path</th><th>Effort</th><th>Outcome</th></tr>
+    <tr><td><strong>Optimize architecture</strong></td><td>1–2 hrs dev</td><td>Free tier sufficient</td></tr>
+    <tr><td><strong>Enable Gemini billing</strong></td><td>2 min</td><td>Limits gone · ~RM 5/month</td></tr>
+    <tr><td><strong class="check">Both (recommended)</strong></td><td>2 hrs + 2 min</td><td>Cheapest + most reliable</td></tr>
+  </table>
+  <div class="footer-cta">
+    Recommendation: <em>Both.</em><br>
+    Optimize once for cleaner UX. Billing as the safety net.
+  </div>
+  <div class="brand">ATOMIC OPS · RATE LIMIT REPORT</div>
+</section>
+
+</body>
+</html>

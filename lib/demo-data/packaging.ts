@@ -1,0 +1,98 @@
+// Demo packaging — 10 SKUs across box / bottle / foil / label.
+
+export const demoPackaging = [
+  // ===== Boxes =====
+  {
+    id: 'pkg-1', packaging_code: 'BOX-A1', packaging_name: 'Brand A · 30S Outer Box',
+    packaging_type: 'Box', brand: 'Brand A',
+    supplier_code: 'SUP-003', source_channel: 'agent',
+    unit_cost: 0.45, moq: 5000, lead_time_days: 30,
+    pack_size: 1, uom: 'pc', stock_balance: 8500, incoming: 0,
+    notes: 'Folded paper box, full-colour print',
+    created_at: '2024-06-01T00:00:00Z', updated_at: '2024-06-01T00:00:00Z',
+  },
+  {
+    id: 'pkg-2', packaging_code: 'BOX-A2', packaging_name: 'Brand A · 60S Outer Box',
+    packaging_type: 'Box', brand: 'Brand A',
+    supplier_code: 'SUP-003', source_channel: 'agent',
+    unit_cost: 0.65, moq: 5000, lead_time_days: 30,
+    pack_size: 1, uom: 'pc', stock_balance: 4200, incoming: 2000,
+    notes: 'Folded paper box, full-colour print',
+    created_at: '2024-08-01T00:00:00Z', updated_at: '2024-08-01T00:00:00Z',
+  },
+  {
+    id: 'pkg-3', packaging_code: 'BOX-B1', packaging_name: 'Brand B · Cosmetic Outer Box',
+    packaging_type: 'Box', brand: 'Brand B',
+    supplier_code: 'SUP-003', source_channel: 'agent',
+    unit_cost: 1.20, moq: 3000, lead_time_days: 45,
+    pack_size: 1, uom: 'pc', stock_balance: 1800, incoming: 0,
+    notes: 'Premium rigid box with foam insert',
+    created_at: '2024-09-01T00:00:00Z', updated_at: '2024-09-01T00:00:00Z',
+  },
+  {
+    id: 'pkg-4', packaging_code: 'BOX-C1', packaging_name: 'Brand C · Tea Box (Small)',
+    packaging_type: 'Box', brand: 'Brand C',
+    supplier_code: 'SUP-003', source_channel: 'agent',
+    unit_cost: 0.30, moq: 5000, lead_time_days: 30,
+    pack_size: 1, uom: 'pc', stock_balance: 6200, incoming: 0,
+    notes: 'Standard tea-box, kraft paper',
+    created_at: '2024-07-01T00:00:00Z', updated_at: '2024-07-01T00:00:00Z',
+  },
+  // ===== Bottles =====
+  {
+    id: 'pkg-5', packaging_code: 'BTL-A1', packaging_name: 'Brand A · 90s PET Bottle',
+    packaging_type: 'Bottle', brand: 'Brand A',
+    supplier_code: 'SUP-004', source_channel: 'direct_supplier',
+    unit_cost: 0.85, moq: 2000, lead_time_days: 30,
+    pack_size: 1, uom: 'pc', stock_balance: 3500, incoming: 1000,
+    notes: 'Amber PET, child-resistant cap',
+    created_at: '2024-10-01T00:00:00Z', updated_at: '2024-10-01T00:00:00Z',
+  },
+  {
+    id: 'pkg-6', packaging_code: 'BTL-B1', packaging_name: 'Brand B · 30ml Glass Dropper',
+    packaging_type: 'Bottle', brand: 'Brand B',
+    supplier_code: 'SUP-004', source_channel: 'direct_supplier',
+    unit_cost: 2.40, moq: 3000, lead_time_days: 60,
+    pack_size: 1, uom: 'pc', stock_balance: 950, incoming: 2000,
+    notes: 'Amber glass with dropper cap',
+    created_at: '2024-09-01T00:00:00Z', updated_at: '2024-09-01T00:00:00Z',
+  },
+  {
+    id: 'pkg-7', packaging_code: 'BTL-A2', packaging_name: 'Brand A · 250ml Drink Bottle',
+    packaging_type: 'Bottle', brand: 'Brand A',
+    supplier_code: 'SUP-004', source_channel: 'direct_supplier',
+    unit_cost: 0.60, moq: 5000, lead_time_days: 30,
+    pack_size: 1, uom: 'pc', stock_balance: 5200, incoming: 0,
+    notes: 'Clear PET, screw cap',
+    created_at: '2025-01-01T00:00:00Z', updated_at: '2025-01-01T00:00:00Z',
+  },
+  // ===== Foils =====
+  {
+    id: 'pkg-8', packaging_code: 'FOIL-A1', packaging_name: 'Brand A · Sachet Foil Roll',
+    packaging_type: 'Foil', brand: 'Brand A',
+    supplier_code: 'SUP-005', source_channel: 'direct_supplier',
+    unit_cost: 0.04, moq: 8000, lead_time_days: 45,
+    pack_size: 8000, uom: 'Unit', stock_balance: 24000, incoming: 8000,
+    notes: '1 Roll = 8000 sachets · per-pc shown',
+    created_at: '2024-06-01T00:00:00Z', updated_at: '2024-06-01T00:00:00Z',
+  },
+  {
+    id: 'pkg-9', packaging_code: 'FOIL-C1', packaging_name: 'Brand C · Tea Bag Foil Roll',
+    packaging_type: 'Foil', brand: 'Brand C',
+    supplier_code: 'SUP-005', source_channel: 'direct_supplier',
+    unit_cost: 0.025, moq: 10000, lead_time_days: 45,
+    pack_size: 10000, uom: 'Unit', stock_balance: 18000, incoming: 0,
+    notes: '1 Roll = 10000 tea bag sleeves',
+    created_at: '2024-07-01T00:00:00Z', updated_at: '2024-07-01T00:00:00Z',
+  },
+  // ===== Labels =====
+  {
+    id: 'pkg-10', packaging_code: 'LBL-B1', packaging_name: 'Brand B · Bottle Label',
+    packaging_type: 'Label', brand: 'Brand B',
+    supplier_code: 'SUP-005', source_channel: 'direct_supplier',
+    unit_cost: 0.08, moq: 5000, lead_time_days: 21,
+    pack_size: 1, uom: 'pc', stock_balance: 4600, incoming: 0,
+    notes: 'Self-adhesive PP label, full-colour print',
+    created_at: '2024-09-01T00:00:00Z', updated_at: '2024-09-01T00:00:00Z',
+  },
+]

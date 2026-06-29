@@ -1,0 +1,41 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//**)",
+      "Bash(git status)",
+      "Bash(git log:*)",
+      "Bash(git diff:*)",
+      "Bash(git branch:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(ls:*)",
+      "Bash(npm install)",
+      "Bash(npx next build)",
+      "Bash(npx next dev)",
+      "Bash(npx tsc:*)"
+    ],
+    "deny": [
+      "Bash(rm -rf *)",
+      "Bash(git push --force*)",
+      "Bash(git reset --hard*)",
+      "Bash(npm publish*)",
+      "Read(./.env*)",
+      "Read(./service-account*.json)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "FILE=\"$CLAUDE_FILE_PATH\"; if [ -z \"$FILE\" ]; then exit 0; fi; EXT=\"${FILE##*.}\"; case \"$EXT\" in ts|tsx|js|jsx|mjs) if [ -f \"$(cd \"$(dirname \"$FILE\")\" && git rev-parse --show-toplevel 2>/dev/null)/node_modules/.bin/tsc\" ]; then : ; fi;; esac",
+            "statusMessage": "Post-write hook ok"
+          }
+        ]
+      }
+    ]
+  }
+}

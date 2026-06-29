@@ -1,0 +1,222 @@
+@import "tailwindcss";
+
+@theme inline {
+  --color-bg: #FAFAF7;
+  --color-surface: #FFFFFF;
+  --color-ink: #1A1A1A;
+  --color-ink-soft: #3D3D3D;
+  --color-muted: #6B6B6B;
+  --color-faint: #E8E5DE;
+  --color-line: #D4D0C7;
+  --color-accent: #C8432C;
+  --color-accent-light: #F5E4E0;
+  --color-green: #4A6B3D;
+  --color-green-light: #E4EDE0;
+  --color-blue: #2C5F7C;
+  --color-blue-light: #DDE8EF;
+  --color-amber: #B8860B;
+  --color-amber-light: #F5EDD6;
+  --color-red: #A53025;
+  --color-red-light: #F5DEDA;
+  --color-purple: #6B4A7C;
+  --color-purple-light: #E8E0EF;
+  --font-mono: var(--font-jetbrains-mono);
+}
+
+body {
+  background: var(--color-bg);
+  color: var(--color-ink);
+  /* Body / tables / sub-text — all JetBrains Mono. */
+  font-family: var(--font-jetbrains-mono), ui-monospace, 'SF Mono', Menlo, monospace;
+  font-size: 14px;
+  letter-spacing: -0.01em;
+}
+
+/* When sidebar is collapsed on desktop, page sticky breadcrumbs need
+ * extra left padding so the floating "show sidebar" button (at left:12px,
+ * width:36px) doesn't overlap their text content. */
+html[data-sidebar-collapsed="true"] div.sticky.top-0:not([data-no-eye-slot]) {
+  padding-left: 64px;
+}
+
+/* Desktop page padding — Tailwind's px-7 (28px) feels cramped against
+ * the dark sidebar. Bump page-level horizontal padding so text has
+ * breathing room from the screen edge. Cards inside still use their
+ * own padding. */
+@media (min-width: 768px) {
+  .px-7 { padding-left: 2.25rem !important; padding-right: 2.25rem !important; }
+  .px-6 { padding-left: 2rem !important; padding-right: 2rem !important; }
+}
+
+/* Headings only — Fraunces serif. */
+h1, h2, h3 {
+  font-family: var(--font-fraunces), Georgia, serif;
+  letter-spacing: -0.01em;
+}
+
+/* JetBrains Mono renders ~1px visually larger than Fraunces at the same
+ * nominal px. Originally we shrunk by 1px across the board; user
+ * requested everything be bumped back up +1px, so these now restore
+ * close to the original Tailwind sizes (and slightly above for clarity). */
+.text-\[10px\] { font-size: 10px; }
+.text-\[11px\] { font-size: 11px; }
+.text-\[12px\] { font-size: 12px; }
+.text-\[13px\] { font-size: 13px; }
+.text-\[14px\] { font-size: 14px; }
+.text-\[15px\] { font-size: 15px; }
+.text-\[16px\] { font-size: 15px; }
+.text-\[18px\] { font-size: 17px; }
+.text-\[20px\] { font-size: 19px; }
+.text-\[22px\] { font-size: 21px; }
+/* Tailwind named tokens too */
+.text-xs { font-size: 12px; }
+.text-sm { font-size: 13px; }
+.text-base { font-size: 14px; }
+
+/* Default table cells to vertically centered content — so eye icons and
+ * single-line values stay aligned with multi-line text in adjacent columns. */
+table td { vertical-align: middle; }
+
+/* Sensitive content masking — applies when body[data-prices-hidden="true"]
+ * Used for: prices (RM amounts), supplier names in Products list, etc.
+ * Wrap with <Sensitive> or add className="sensitive". */
+body[data-prices-hidden="true"] .sensitive {
+  color: transparent !important;
+  user-select: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 56px;
+  min-height: 22px;
+  padding: 0 6px;
+  vertical-align: middle;
+  font-size: 0;
+  position: relative;
+  border-radius: 4px;
+  transition: background 0.12s ease;
+}
+body[data-prices-hidden="true"] .sensitive:hover {
+  background: rgba(0,0,0,0.06);
+}
+body[data-prices-hidden="true"] .sensitive:hover::before {
+  content: 'click to unhide';
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--color-bg);
+  color: var(--color-ink);
+  border: 1px solid var(--color-line);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-family: var(--font-jetbrains-mono), monospace;
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+body[data-prices-hidden="true"] .sensitive[data-revealed]:hover::before {
+  content: 'click to hide';
+}
+/* Hide all inner content uniformly so eye is always centered + same size */
+body[data-prices-hidden="true"] .sensitive > *,
+body[data-prices-hidden="true"] .sensitive br {
+  display: none !important;
+}
+body[data-prices-hidden="true"] .sensitive::after {
+  content: '👁';
+  display: inline-block;
+  font-size: 14px;
+  line-height: 1;
+  color: #1A1A1A;
+  filter: grayscale(1);
+  pointer-events: none;
+}
+
+/* Per-element reveal: click on a masked .sensitive to show just that one */
+body[data-prices-hidden="true"] .sensitive[data-revealed] {
+  color: inherit !important;
+  height: auto;
+  line-height: inherit;
+  font-size: inherit;
+  min-width: 0;
+  cursor: pointer;
+}
+body[data-prices-hidden="true"] .sensitive[data-revealed] > * {
+  display: revert !important;
+}
+body[data-prices-hidden="true"] .sensitive[data-revealed]::after {
+  display: none;
+}
+
+@media print {
+  /* Always show in print/PDF regardless of toggle */
+  body[data-prices-hidden="true"] .sensitive {
+    color: inherit !important;
+  }
+  body[data-prices-hidden="true"] .sensitive::after { display: none; }
+  body[data-prices-hidden="true"] .sensitive > * { visibility: visible; }
+}
+
+/* ============================================================
+ * Mobile responsiveness — global overrides for pages that haven't
+ * been individually tuned. Tightens horizontal padding and lets
+ * any wide table scroll horizontally without breaking the page.
+ * ============================================================ */
+@media (max-width: 767px) {
+  /* Tighten page-level horizontal padding, but keep enough breathing room
+   * from the screen edge so text never feels glued to the bezel. */
+  .px-7 { padding-left: 1.25rem !important; padding-right: 1.25rem !important; }
+  .px-6 { padding-left: 1.25rem !important; padding-right: 1.25rem !important; }
+  .px-5 { padding-left: 1.125rem !important; padding-right: 1.125rem !important; }
+  .px-4 { padding-left: 1rem !important; padding-right: 1rem !important; }
+
+  /* Page-title rows have huge serif headings — shrink */
+  h1.text-3xl, h1.text-4xl { font-size: 22px !important; }
+  h1.text-2xl { font-size: 20px !important; }
+
+  /* Mobile chrome: hide the page-level sticky breadcrumb entirely. The
+   * MobileTopBar now hosts the brand mark plus Eye/Logout buttons, so
+   * the page breadcrumb just wastes vertical space. */
+  div.sticky.top-0:not([data-no-eye-slot]) { display: none; }
+
+  /* Ensure page H1 / titles aren't hidden behind the stacked sticky bars
+   * when the user navigates via fragment links or restores scroll. */
+  h1, h2, h3 { scroll-margin-top: 100px; }
+
+  /* When a page-title flex row stacks vertically on mobile, make sure
+   * the H1 line-height doesn't clip the descenders. */
+  h1.text-2xl, h1.text-3xl { line-height: 1.2; padding-bottom: 2px; }
+
+  /* Cards with tables: enable horizontal scroll on the card's body so
+   * the page never overflows even if a child table is wider than screen */
+  .bg-white.border.rounded > .overflow-x-auto,
+  .bg-white.border.rounded > table {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Filter chip rows wrap properly */
+  .flex.gap-2.mb-4.flex-wrap,
+  .flex.gap-2.mb-6.flex-wrap,
+  .flex.gap-2.mb-3.flex-wrap { gap: 0.375rem; }
+
+  /* Page-title rows: stack on mobile so action buttons don't overflow.
+   * Targets the standard `flex justify-between items-end pb-3.5 mb-6` header. */
+  [class*="justify-between"][class*="items-end"][class*="mb-6"][class*="border-b"] {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.625rem;
+  }
+  [class*="justify-between"][class*="items-end"][class*="mb-6"][class*="border-b"] > div:last-child {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+}
+
+/* Generic helper: any element with this class scrolls horizontally on mobile */
+.table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.table-scroll > table { min-width: max-content; }
