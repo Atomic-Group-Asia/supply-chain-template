@@ -74,7 +74,7 @@ export const TOOLS = [
     input_schema: {
       type: 'object' as const,
       properties: {
-        recipient_name: { type: 'string', description: 'Recipient name (e.g., Darren)' },
+        recipient_name: { type: 'string', description: 'Recipient name' },
         subject: { type: 'string', description: 'Subject line, e.g., "PO-2026-038 follow-up"' },
         context: { type: 'string', description: 'What this message is about. The agent will draft the message based on this.' },
         tone: { type: 'string', enum: ['polite', 'urgent', 'firm'], description: 'Tone of the message' },

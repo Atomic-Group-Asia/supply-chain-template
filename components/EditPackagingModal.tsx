@@ -117,9 +117,9 @@ export function EditPackagingModal({ packaging, suppliers, onClose }: { packagin
             </select>
           </Field>
           <Field label="Source Channel">
-            <input value={form.source_channel} onChange={e => update('source_channel', e.target.value)} style={inputStyle} placeholder="direct_supplier / via_darren / ..." list="src-channels" />
+            <input value={form.source_channel} onChange={e => update('source_channel', e.target.value)} style={inputStyle} placeholder="direct_supplier / via_agent / ..." list="src-channels" />
             <datalist id="src-channels">
-              <option value="direct_supplier" /><option value="via_darren" />
+              <option value="direct_supplier" /><option value="via_agent" />
             </datalist>
           </Field>
 

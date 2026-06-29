@@ -112,9 +112,9 @@ export function CreatePackagingButton({ suppliers }: { suppliers: any[] }) {
                 </select>
               </Field>
               <Field label="Source Channel">
-                <input value={form.source_channel} onChange={e => update('source_channel', e.target.value)} style={inputStyle} placeholder="direct_supplier / via_darren / ..." list="src-channels-c" />
+                <input value={form.source_channel} onChange={e => update('source_channel', e.target.value)} style={inputStyle} placeholder="direct_supplier / via_agent / ..." list="src-channels-c" />
                 <datalist id="src-channels-c">
-                  <option value="direct_supplier" /><option value="via_darren" />
+                  <option value="direct_supplier" /><option value="via_agent" />
                 </datalist>
               </Field>
 
