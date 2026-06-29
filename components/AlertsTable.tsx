@@ -85,7 +85,7 @@ export function AlertsTable({ activeAlerts, processingAlerts }: { activeAlerts: 
   const presentBrands = useMemo(() => {
     const set = new Set<string>()
     for (const a of byType) if (a.brand) set.add(a.brand)
-    const order = ['Nattome', 'NattomeSG', 'Heartio', 'HeartioSG', 'TPD', 'HJT', 'HooHoo', 'Stonecare']
+    const order = ['Brand A', 'Brand B', 'Brand C']
     const sorted = order.filter(b => set.has(b))
     const extras = Array.from(set).filter(b => !order.includes(b)).sort()
     return [...sorted, ...extras]

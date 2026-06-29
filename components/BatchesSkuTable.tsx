@@ -27,7 +27,7 @@ type SkuRow = {
   has_expired: boolean
 }
 
-const BRAND_ORDER = ['Nattome', 'NattomeSG', 'Heartio', 'HeartioSG', 'TPD', 'HJT', 'HooHoo', 'Stonecare']
+const BRAND_ORDER = ['Brand A', 'Brand B', 'Brand C']
 
 function daysUntil(date: string): number {
   const d = new Date(date)

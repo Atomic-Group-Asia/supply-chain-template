@@ -4,8 +4,8 @@ import { useState, useMemo } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { EditPackagingModal } from './EditPackagingModal'
 
-const KNOWN_BRANDS = ['Nattome', 'NattomeSG', 'Heartio', 'HeartioSG', 'TPD', 'HJT', 'HooHoo', 'Stonecare']
-const BRAND_ORDER = ['Nattome', 'NattomeSG', 'Heartio', 'HeartioSG', 'TPD', 'HJT', 'HooHoo', 'Stonecare']
+const KNOWN_BRANDS = ['Brand A', 'Brand B', 'Brand C']
+const BRAND_ORDER = ['Brand A', 'Brand B', 'Brand C']
 
 function getBrand(p: any): string {
   // 1. Explicit brand column (preferred — set via Create/Edit modal)

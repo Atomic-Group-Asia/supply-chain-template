@@ -3,7 +3,7 @@
 import { useState, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 
-const BRANDS = ['Nattome', 'NattomeSG', 'Heartio', 'HeartioSG', 'TPD', 'HJT', 'HooHoo', 'Stonecare']
+const BRANDS = ['Brand A', 'Brand B', 'Brand C']
 
 export function UploadStockMovementsButton() {
   const fileInputRef = useRef<HTMLInputElement>(null)

@@ -4,14 +4,9 @@ import { UploadDailyStockClient } from '@/components/UploadDailyStockClient'
 export const dynamic = 'force-dynamic'
 
 const BRAND_OPTIONS = [
-  { code: 'Nattome', label: 'Nattome (MY)' },
-  { code: 'NattomeSG', label: 'Nattome SG' },
-  { code: 'Heartio', label: 'Heartio (MY)' },
-  { code: 'HeartioSG', label: 'Heartio SG' },
-  { code: 'TPD', label: 'TPD' },
-  { code: 'HJT', label: 'HJT' },
-  { code: 'HooHoo', label: 'Hoo Hoo' },
-  { code: 'Stonecare', label: 'Stonecare' },
+  { code: 'Brand A', label: 'Brand A' },
+  { code: 'Brand B', label: 'Brand B' },
+  { code: 'Brand C', label: 'Brand C' },
 ]
 
 export default function FGInventoryUploadPage() {

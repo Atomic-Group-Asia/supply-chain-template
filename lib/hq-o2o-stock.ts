@@ -53,6 +53,10 @@ export async function readHQStock(): Promise<StockRow[]> {
 // Legacy aliases kept so existing imports compile.
 export const readO2OShops = async (): Promise<RetailerShop[]> => readRetailerShops()
 export const readO2OPivot = async (): Promise<RetailerPivot[]> => readRetailerPivot()
+// The /o2o-stock page imports `readO2OStock` — return flat rows.
+export async function readO2OStock(): Promise<StockRow[]> {
+  return fetchWarehouseRows(WAREHOUSES.retailer)
+}
 
 // Single fake "shop" representing the Retailer warehouse. The production
 // version pivoted across multiple shops per brand; the demo flattens to

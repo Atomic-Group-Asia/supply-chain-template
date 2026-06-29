@@ -6,7 +6,7 @@ type Row = { brand: string; sku: string; product_name: string; qty: number }
 
 const fmt = (n: number) => n.toLocaleString()
 
-const BRAND_ORDER = ['Nattome', 'NattomeSG', 'Heartio', 'HeartioSG', 'TPD', 'HJT', 'HooHoo', 'Stonecare']
+const BRAND_ORDER = ['Brand A', 'Brand B', 'Brand C']
 
 /** Shared table for HQ Stock + O2O Stock pages. Search + brand filter +
  *  click-to-sort. Lightweight on purpose — these are reference views

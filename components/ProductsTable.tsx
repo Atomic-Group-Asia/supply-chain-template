@@ -3,7 +3,7 @@
 import { useState, useMemo } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 
-const brands = ['All', 'Nattome', 'Heartio', 'TPD', 'HJT', 'HooHoo', 'Stonecare']
+const brands = ['All', 'Brand A', 'Brand B', 'Brand C']
 
 export function ProductsTable({ products, suppliers }: { products: any[]; suppliers: any[] }) {
   const router = useRouter()

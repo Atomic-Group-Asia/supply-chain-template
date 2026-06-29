@@ -17,7 +17,7 @@ type Pivot = {
   per_shop: { shop_code: string; shop_name: string; qty: number }[]
 }
 
-const BRAND_ORDER = ['Nattome', 'NattomeSG', 'Heartio', 'HeartioSG', 'TPD', 'HJT', 'HooHoo', 'Stonecare']
+const BRAND_ORDER = ['Brand A', 'Brand B', 'Brand C']
 const fmt = (n: number) => n.toLocaleString()
 
 export function O2OStockClient({

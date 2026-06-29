@@ -8,7 +8,7 @@ const getMonthKey = (date: string | null) => date ? date.substring(0, 7) : ''
 const getMonthLabel = (key: string) => key ? new Date(key + '-01').toLocaleDateString('en-US', { year: 'numeric', month: 'long' }) : 'Unknown'
 const getMonthShort = (key: string) => key ? new Date(key + '-01').toLocaleDateString('en-US', { year: 'numeric', month: 'short' }) : 'Unknown'
 
-const BRAND_ORDER = ['Nattome', 'NattomeSG', 'Heartio', 'HeartioSG', 'TPD', 'HJT', 'HooHoo', 'Stonecare']
+const BRAND_ORDER = ['Brand A', 'Brand B', 'Brand C']
 
 function sortByOrder(values: string[], order: string[]): string[] {
   const present = new Set(values)

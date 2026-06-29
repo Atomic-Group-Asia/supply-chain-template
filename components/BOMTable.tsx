@@ -4,7 +4,7 @@ import { useState, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 
-const BRAND_ORDER = ['Nattome', 'NattomeSG', 'Heartio', 'HeartioSG', 'TPD', 'HJT', 'HooHoo', 'Stonecare']
+const BRAND_ORDER = ['Brand A', 'Brand B', 'Brand C']
 
 export function BOMTable({ boms, products, packaging, suppliers }: { boms: any[]; products: any[]; packaging: any[]; suppliers: any[] }) {
   // packaging, suppliers unused at the list level — full editor lives on

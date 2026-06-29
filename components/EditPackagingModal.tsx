@@ -93,7 +93,7 @@ export function EditPackagingModal({ packaging, suppliers, onClose }: { packagin
           <Field label="Brand">
             <select value={form.brand} onChange={e => update('brand', e.target.value)} style={inputStyle}>
               <option value="">— select brand —</option>
-              {['Nattome','NattomeSG','Heartio','HeartioSG','TPD','HJT','HooHoo','Stonecare'].map(b => <option key={b} value={b}>{b}</option>)}
+              {['Brand A', 'Brand B', 'Brand C'].map(b => <option key={b} value={b}>{b}</option>)}
             </select>
           </Field>
           <Field label="Type">

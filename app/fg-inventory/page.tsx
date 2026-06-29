@@ -10,9 +10,7 @@ export const revalidate = 0
 // FG Inventory shows all live brands across MY + SG (broader than the
 // VISIBLE_BRANDS set used by Purchase Decisions / Alerts / Dashboard).
 const FG_INVENTORY_BRANDS = new Set<string>([
-  'Nattome', 'NattomeSG',
-  'Heartio', 'HeartioSG',
-  'TPD', 'HooHoo', 'HJT', 'Stonecare',
+  'Brand A', 'Brand B', 'Brand C',
 ])
 
 const key = (brand: string, sku: string) => `${brand}::${sku}`

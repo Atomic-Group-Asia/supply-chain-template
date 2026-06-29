@@ -28,7 +28,7 @@ type SortKey = 'sku' | 'product_name' | 'closing_stock' | 'restock_alert' | 'ear
 type SortDir = 'asc' | 'desc'
 
 // Group MY + SG pairs together; HJT is new, slot before HooHoo/Stonecare
-const BRAND_ORDER = ['Nattome', 'NattomeSG', 'Heartio', 'HeartioSG', 'TPD', 'HJT', 'HooHoo', 'Stonecare']
+const BRAND_ORDER = ['Brand A', 'Brand B', 'Brand C']
 const CATEGORY_ORDER = ['Product', 'Merchandise', 'Free Gift', 'Inactive', 'Others']
 
 function sortByOrder(values: string[], order: string[]): string[] {

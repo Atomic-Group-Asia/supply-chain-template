@@ -46,7 +46,7 @@ export function BatchesTable({ batches, productMap }: { batches: Batch[]; produc
   }), [batches, productMap])
 
   // Brand list — group MY + SG pairs, keep order consistent across the app
-  const BRAND_ORDER = ['Nattome', 'NattomeSG', 'Heartio', 'HeartioSG', 'TPD', 'HJT', 'HooHoo', 'Stonecare']
+  const BRAND_ORDER = ['Brand A', 'Brand B', 'Brand C']
   const presentBrands = useMemo(() => {
     const set = new Set<string>()
     for (const b of enriched) if (b.brand) set.add(b.brand)
